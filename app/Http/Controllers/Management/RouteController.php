@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Management;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\RouteModel;
 
 class RouteController extends Controller
 {
@@ -11,8 +12,11 @@ class RouteController extends Controller
      * Display a listing of the resource.
      */
     public function index()
+
     {
-        return view('Management.CreateRoute');
+        $routes=RouteModel::all();
+        return view('Management.CreateRoute')->with('routes', $routes);
+
     }
 
     /**
@@ -20,7 +24,7 @@ class RouteController extends Controller
      */
     public function create()
     {
-        //
+        return view('Management.CreateNewRoute');
     }
 
     /**
@@ -28,7 +32,18 @@ class RouteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'route' => 'required',
+        ]);
+
+
+        $mod_rou=new RouteModel;
+        $mod_rou->name=$request->route;
+        $mod_rou->save();
+        $request->session()->flash('status',$request->route.'Route Created Successfully');
+        $routes = RouteModel::all();
+        return view('Management.CreateRoute')->with('routes', $routes);
     }
 
     /**
