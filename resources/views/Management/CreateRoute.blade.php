@@ -11,7 +11,7 @@
             <div class="col-10">
                 <div class="card">
                     <div class="card-header">
-                        <h6>Create Route</h6>
+                        <h6><b>Create Route</b></h6>
                         <br>
                         <a href="/Management/Route/create" class="btn btn-primary float-end">Create Route</a>
 
@@ -42,16 +42,27 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($routes as $routes)
+                            @foreach ($routes as $route)
                             <tr>
-                                <td>{{$routes->id}}</td>
-                                <td>{{$routes->name}}</td>
+                                <td>{{$route->id}}</td>
+                                <td>{{$route->name}}</td>
                                 <td><a href="#"class="btn btn-warning">Edit</a></td>
-                                <td><a href="#" class="btn btn-danger">Delete</a></td>
+
+
+
+                                <td><form action="/Management/Route/{{$route->id}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="submit" class="btn btn-danger" value="Delete">
+                                    </form></td>
                             </tr>
                             @endforeach
                         </tbody>
+
                     </table>
+
+                    {{$routes->links()}}
+
                     </div>
                     <div class="card-footer">
 

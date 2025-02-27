@@ -14,7 +14,7 @@ class RouteController extends Controller
     public function index()
 
     {
-        $routes=RouteModel::all();
+        $routes=RouteModel::paginate(5);
         return view('Management.CreateRoute')->with('routes', $routes);
 
     }
@@ -42,7 +42,8 @@ class RouteController extends Controller
         $mod_rou->name=$request->route;
         $mod_rou->save();
         $request->session()->flash('status',$request->route.'Route Created Successfully');
-        $routes = RouteModel::all();
+
+        $routes=RouteModel::paginate(5);
         return view('Management.CreateRoute')->with('routes', $routes);
     }
 
@@ -75,6 +76,11 @@ class RouteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $r=RouteModel::find($id);
+        $r->delete();
+        session()->flash('status','Route Created Successfully');
+        $routes=RouteModel::paginate(5);
+        return view('Management.CreateRoute')->with('routes', $routes);
+         $request->session()->flash('status',$request->route.'Route Created Successfully');
     }
 }
